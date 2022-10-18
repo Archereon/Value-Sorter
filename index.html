@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<!--
+	Indivisible by Pixelarity
+	pixelarity.com | hello@pixelarity.com
+	License: pixelarity.com/license
+-->
+<html>
+	<head>
+		<title>Value Sorter Tool</title>
+		<meta name="keywords" content="mental health" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload-0 is-preload-1">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+					
+					<article id="ValueSorter" class="panel special">
+					    <section>
+						<header>
+									<h3>Rate the following 50 principles by how important they are to you</h3>
+						</header>
+						
+						<nav id="nav">
+									<ul class="actions stacked special animated spinY">
+										<li><a class="button" href='#ValueSorterBuckets'>Continue</a></li>
+										<!--<li><a href="#elements" class="button">Elements</a></li>-->
+									</ul>
+						</nav>
+						</section>
+						
+					</article>
+					
+					<article id="ValueSorterIntro2" class="panel special">
+					    <section>
+						<header>
+									<h3>This will help you identify what values are important to you.  The answers may surprise you.  </h3>
+						</header>
+						<header id='recentChangeHeader'>
+						</header>
+						<nav id="nav">
+									<ul class="actions stacked special animated spinY">
+										<li><a class="button" href='#ValueSorter'>Continue</a></li>
+										<!--<li><a href="#elements" class="button">Elements</a></li>-->
+									</ul>
+						</nav>
+						</section>
+						
+					</article>
+										
+					<article id="ValueSorterBuckets" class="panel special">
+					    <section>
+						<div class="content">
+							<div class="inner">
+								<p>Click Continue when you are done.</p>
+								<div class="card" id='valueHeader' draggable='true' ondragstart=''>
+								    CONNECTING WITH NATURE
+								</div>
+								<header>
+									<h3 id='counter'>0/50</h3>
+								</header>
+								<div class="image" id='high' ondrop='dropItHigh(event)' onClick= 'dropItHigh(event)' ondragover="allowDrop(event)">
+									<img src="images/highbucket.jpg" alt="" data-position="center center" />
+								</div>
+								<div class="image" id='medium' ondrop='dropItMedium(event)' onclick='dropItMedium(event)' ondragover="allowDrop(event)">
+									<img src="images/mediumbucket.jpg" alt="" data-position="center center" />
+								</div>
+								<div class="image" id='low' ondrop='dropItLow(event)' onclick='dropItLow(event)' ondragover="allowDrop(event)">
+									<img src="images/lowbucket.jpg" alt="" data-position="center center" />
+								</div>
+								
+							</div>
+							
+						</div>
+						
+						<nav id="nav">
+							<a class="button" onClick='undo(event)'>Undo</a>
+							<a class="button" onClick="return continue_checker();" >Continue</a>
+						</nav>
+						</section>
+						
+					</article>
+					
+					<article id="ValueSorterRedo" class="panel special">
+					    <section>
+						<header>
+									<h3>Nice Work. We're going to try this exercise again though. This time, try to select no more than 10 high priority values.  </h3>
+						</header>
+						<nav id="nav">
+									<ul class="actions stacked special animated spinY">
+										<li><a class="button" href='#ValueSorterBuckets'>Continue</a></li>
+										<!--<li><a href="#elements" class="button">Elements</a></li>-->
+									</ul>
+						</nav>
+						</section>
+						
+					</article>
+					
+					<article id="ValueSorterContinue" class="panel special">
+					    <section>
+						<header>
+									<h3>Great job.  Now sort the values in order of your least to your most important.  </h3>
+						</header>
+						<nav id="nav">
+									<ul class="actions stacked special animated spinY">
+										<li><a class="button" href='#ValueSorterFinalList' onClick="return populate_final_list();" >Continue</a></li>
+										<!--<li><a href="#elements" class="button">Elements</a></li>-->
+									</ul>
+						</nav>
+						</section>
+						
+					</article>
+					
+					
+					<article id="ValueSorterFinalList" class="panel secondary">
+					    <section id="ValueSorterFinalListSection">
+						<div class="drag-container"></div>
+						<ul class="actions animated spinX">
+							<li><a class="button small back" href='#ValueSorterBuckets'>Back</a></li>
+						</ul>
+						<div class="list-title">
+							Sort these in order of most to least important.  
+						</div>
+						
+						<div class='board-column-items-container'>
+							<div class="board-column-items">
+							 
+							</div>
+						</div>
+						
+						</section>
+						
+					</article>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/muuri@0.9.5/dist/muuri.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/web-animations-js@2.3.2/web-animations.min.js"></script>
+			<script>
+
+		// Update the bucket icons
+		// Export list to CSV? 
+		// Least valuable things?
+		var i = 0
+		var values = ['CONNECTING WITH NATURE', 
+		              'CREATING BEAUTY', 
+					  'BEING LOYAL TO FRIENDS, FAMILY, AND/OR MY GROUP', 
+					  'HELPING OTHERS', 
+					  'GAINING WISDOM AND A MATURE UNDERSTANDING OF LIFE', 
+					  'PROMOTING JUSTICE AND CARING FOR THE WEAK', 
+					  'BEING HONEST',
+					  'BEING SEXUALLY DESIRABLE',
+					  'HAVING GENUINE CLOSE FRIENDS',
+					  'HAVING RELATIONSHIPS INVOLVING LOVE AND AFFECTION',
+					  'BEING AMBITIOUS AND HARD WORKING',
+					  'BEING COMPETENT AND EFFECTIVE',
+					  'HAVING A SENSE OF ACCOMPLISHMENT AND MAKING A LASTING CONTRIBUTION',
+					  'HAVING AN EXCITING LIFE',
+					  'HAVING A LIFE FILLED WITH ADVENTURE',
+					  'HAVING A LIFE FILLED WITH NOVELTY AND CHANGE',
+					  'EATING HEALTHY FOOD',
+					  'ACTIVING CONSISTENTLY WITH MY RELIGIOUS FAITH AND BELIEFS',
+					  'ENGAGING IN SPORTING ACTIVITIES',
+					  'BEING AT ONE WITH GOD OR THE UNIVERSE',
+					  'SHOWING RESPECT FOR TRADITION',
+					  'BEING SELF-DISCIPLINED AND RESISTING TEMPTATION',
+					  'SHOWING RESPECT TO PARENTS AND ELDERS',
+					  'MEETING MY OBLIGATIONS',
+					  'MAINTAINING THE SAFETY AND SECURITY OF MY LOVED ONES',
+					  'BEING SAFE FROM DANGER',
+					  'BEING WEALTHY',
+					  'HAVING AUTHORITY, BEING IN CHARGE',
+					  'HAVING INFLUENCE OVER PEOPLE',
+					  'HAVING AN ENJOYABLE LEISURELY LIFE',
+					  'ENJOYING FOOD AND DRINK',
+					  'BEING SEXUALLY ACTIVE',
+					  'BEING CREATIVE',
+					  'BEING SELF-SUFFICIENT',
+					  'BEING CURIOUS, DISCOVERING NEW THINGS',
+					  'FIGURING THINGS OUT, SOLVING PROBLEMS',
+					  'STRIVING TO BE A BETTER PERSON',
+					  'EXPERIENCING POSITIVE MOOD STATES',
+					  'FEELING GOOD ABOUT MYSELF',
+					  'LEADING A STRESS FREE LIFE',
+					  'DESIGNING THINGS',
+					  'ENJOYING MUSIC, ART, AND/OR DRAMA',
+					  'TEACHING OTHERS',
+					  'RESOLVING DISPUTES',
+					  'WORKING OUTDOORS',
+					  'BUILDING AND REPAIRING THINGS',
+					  'ORGANIZING THINGS',
+					  'ENGAGING IN CLEARLY DEFINED WORK',
+					  'RESEARCHING THINGS',
+					  'MANAGING THINGS']
+		var goodstuff = [];
+		function dragStart(ev) {
+		  ev.dataTransfer.setData("text/plain", ev.target.id);
+		}
+		function allowDrop(ev) {
+		  ev.preventDefault();
+		}
+		function dropItHigh(ev) {
+		   if (i != values.length) {
+		   goodstuff.push(values[i]);
+		   console.log(goodstuff);
+		   document.getElementById("recentChangeHeader").textContent="You just sorted value " + values[i] + " into the HIGH value bucket";
+		   }
+		   if (i < values.length) {
+		   i = i + 1
+		   document.getElementById("valueHeader").textContent=values[i];
+		   document.getElementById("counter").textContent= i + '/'+ values.length;
+		   }
+		}
+		function dropItLow(ev) {
+		   ev.preventDefault();
+		   if (i != values.length) {
+		   document.getElementById("recentChangeHeader").textContent="You just sorted value " + values[i] + " into the LOW value bucket";
+		   }
+		   if (i < values.length) {
+		   i = i + 1;
+		   document.getElementById("valueHeader").textContent=values[i];
+		   document.getElementById("counter").textContent= i + '/' + values.length;
+		   }
+		}
+		function dropItMedium(ev) {
+		   ev.preventDefault();
+		   if (i != values.length) {
+		   document.getElementById("recentChangeHeader").textContent="You just sorted value " + values[i] + " into the MEDIUM value bucket";
+		   }
+		   if (i < values.length) {
+		     i = i + 1;
+		     document.getElementById("valueHeader").textContent=values[i];
+			 document.getElementById("counter").textContent= i + '/' + values.length;
+		   }
+		}
+		  function dropItList(ev) {
+			ev.preventDefault();  // default is not to allow drop
+			let sourceId = ev.dataTransfer.getData("text/plain");
+			let sourceIdEl=document.getElementById(sourceId);
+			let sourceIdParentEl=sourceIdEl.parentElement;
+			let targetEl=document.getElementById(ev.target.id)
+			if (targetEl.className != 'card') {
+				return
+			}
+			let targetParentEl=targetEl.parentElement;
+			let holder=targetEl;
+			let holderText=holder.textContent;
+			targetEl.textContent=sourceIdEl.textContent;
+			sourceIdEl.textContent=holderText;
+			holderText='';
+		}
+			
+		function undo(ev) {
+		   goodstuff = goodstuff.filter(function(e) { return e !== values[i]})
+		   document.getElementById("recentChangeHeader").textContent="";
+		   if (i > 0) {
+		     i = i - 1;
+		   }
+		   document.getElementById("valueHeader").textContent=values[i];
+		   document.getElementById("counter").textContent= i + '/'+ values.length;
+		};
+		
+		continue_checker = function(ev) {
+		   if (i < values.length) { 
+		      alert("Please finish sorting your values."); 
+			  return false;
+			  }
+		   if (goodstuff.length > 10) {
+			  i = 0 ;
+			  values = goodstuff;
+			  goodstuff = []
+			  document.getElementById("valueHeader").textContent=values[0];
+			  document.getElementById("counter").textContent= i + '/'+ values.length;
+			  document.getElementById("recentChangeHeader").textContent=""
+			  document.querySelector('.board-column-items').innerHTML = '';
+			  window.location="#ValueSorterRedo";
+			  return false;
+		   }
+		   else {
+			window.location="#ValueSorterContinue";
+		   };
+		};
+		
+		populate_final_list = function(ev) {
+		     window.location="#ValueSorterFinalList";
+			 setTimeout(() => {
+			 document.querySelector('.board-column-items').innerHTML = '';
+			 var grid1 = new Muuri(document.querySelector('.board-column-items'), {
+					  dragEnabled: true,
+					  dragContainer: document.querySelector('.board-column-items-container'),
+					  dragSort: function () {
+						return [grid1]
+					  }
+					});
+			 for (let i of goodstuff) { 
+				 let carditem = document.createElement("div"); 
+				 carditem.classList.add('card-item');
+				 carditem.setAttribute('class', "card-item");
+				 <!--li.setAttribute('draggable', "true");-->
+				 <!--carditem.setAttribute('id', "card"+i);-->
+				 let carditemcontent = document.createElement("div"); 
+				 carditemcontent.classList.add('card-content');
+				 carditemcontent.setAttribute('class', "card-content");
+				 <!--li.setAttribute('draggable', "true");-->
+				 <!--carditemcontent.setAttribute('id', "card-content"+i);-->
+				 
+				 carditemcontent.innerHTML = i;
+				 carditem.appendChild(carditemcontent);
+                 grid1.add(carditem);
+				 <!--document.getElementById("list1").appendChild(carditem);-->
+				 
+//				 card-item.setAttribute('ondragstart','dragStart(event)');
+				 
+				 
+//				 li.addEventListener('touchmove', (e) => {
+//				   e.preventDefault();
+//				   //Gets element data
+//				   currentElement = e.target;
+//				   //Gets element id
+//				   currentElementId = currentElement.id;
+//				   console.log(li.style.left)
+//				   
+//				   
+//				   var touchLocation = e.targetTouches[0];
+//					// assign box new coordinates based on the touch.
+//					li.style.left = touchLocation.pageX + 'px';
+//					li.style.top = touchLocation.pageY + 'px';
+//				 }
+//				 );
+//				li.addEventListener('touchend', (e) => {
+//					e.preventDefault();
+//					// current box position.
+//					var x = parseInt(li.style.left);
+//					var y = parseInt(li.style.top);
+//					//console.log(currentElementId)
+//					var changedTouch = e.changedTouches[0];
+//					var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY)
+//					console.log(elem.className)
+//					if (elem.className == 'card') {
+//						var temp = elem.innerHTML
+//						elem.innerHTML = li.innerHTML
+//						li.innerHTML = temp
+//					}
+//				 });
+//				 li.innerHTML = i; 
+//				 document.getElementById("list1").appendChild(li); 
+			grid1.layout(true);
+		     
+		   }
+		   return true;
+		}, 800);
+		};
+		
+	   function submitToAPI(e) {
+       e.preventDefault();
+       var URL = "https://mnrk7tr407.execute-api.us-west-2.amazonaws.com/prod/contact-us";
+
+            var Namere = /[A-Za-z]{1}[A-Za-z]/;
+            if (!Namere.test($("#name-input").val())) {
+                         alert ("Name can not less than 2 char");
+                return;
+            }
+
+            var mobilere = /[0-9]{10}/;
+            if (!mobilere.test($("#phone-input").val())) {
+                alert ("Please enter valid mobile number");
+                return;
+            }
+            if ($("#email-input").val()=="") {
+                alert ("Please enter your email id");
+                return;
+            }
+
+            var reeamil = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
+            if (!reeamil.test($("#email-input").val())) {
+                alert ("Please enter valid email address");
+                return;
+            }
+
+       var name = $("#name-input").val();
+	   var phone = $("#phone-input").val();
+       var email = $("#email-input").val();
+       var desc = $("#message-input").val();
+       var data = {
+          name : name,
+		  phone : phone,
+          email : email,
+		  desc : desc,
+        };
+
+       $.ajax({
+         type: "POST",
+         url : "https://mnrk7tr407.execute-api.us-west-2.amazonaws.com/prod/contact-us",
+         dataType: "json",
+         crossDomain: "true",
+         contentType: "application/json; charset=utf-8",
+         data: JSON.stringify(data),
+
+         
+         success: function () {
+           // clear form and show a success message
+           alert("Thank you for contacting me.  I will be in touch with you soon.  If you are experiencing a mental health crisis, please contact the crisis line at 1-844-493-8255 or call 911 in case of an emergency.");
+           document.getElementById("contact-form").reset();
+       location.reload();
+         },
+         error: function () {
+           // show an error message
+           alert("Unfortunately, your message did not send.  Please try again later, or call/email me directly.  If you are experiencing a mental health crisis, please contact the crisis line at 1-844-493-8255 or call 911 in case of an emergency.");
+         }});
+     }
+	 </script>
+
+	</body>
+</html>
