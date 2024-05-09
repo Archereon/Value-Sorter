@@ -64,15 +64,15 @@
 								</header>
 								<div class="image" id='high' ondrop='dropItHigh(event)' onClick= 'dropItHigh(event)' ondragover="allowDrop(event)">
 									<img src="images/highbucket.jpg" alt="" data-position="center center" />
-									<h3 id='high_counter'>0/50</h3>
+									<h3 id='high_counter'>0</h3>
 								</div>
 								<div class="image" id='medium' ondrop='dropItMedium(event)' onclick='dropItMedium(event)' ondragover="allowDrop(event)">
 									<img src="images/mediumbucket.jpg" alt="" data-position="center center" />
-									<h3 id='med_counter'>0/50</h3>
+									<h3 id='med_counter'>0</h3>
 								</div>
 								<div class="image" id='low' ondrop='dropItLow(event)' onclick='dropItLow(event)' ondragover="allowDrop(event)">
 									<img src="images/lowbucket.jpg" alt="" data-position="center center" />
-									<h3 id='med_counter'>0/50</h3>
+									<h3 id='low_counter'>0</h3>
 								</div>
 								
 							</div>
@@ -153,6 +153,9 @@
 		// Export list to CSV? 
 		// Least valuable things?
 		var i = 0
+		var high_total = 0
+		var low_total = 0
+		var med_total = 0
 		var values = ['CONNECTING WITH NATURE', 
 		              'CREATING BEAUTY', 
 					  'BEING LOYAL TO FRIENDS, FAMILY, AND/OR MY GROUP', 
@@ -217,9 +220,11 @@
 		   document.getElementById("recentChangeHeader").textContent="You just sorted value " + values[i] + " into the HIGH value bucket";
 		   }
 		   if (i < values.length) {
-		   i = i + 1
+		   i = i + 1;
+		   high_total = high_total + 1;
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/'+ values.length;
+		   document.getElementById("high_counter").textContent= high_total
 		   }
 		}
 		function dropItLow(ev) {
@@ -229,8 +234,10 @@
 		   }
 		   if (i < values.length) {
 		   i = i + 1;
+		   low_total = low_total + 1;
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/' + values.length;
+		   document.getElementById("low_counter").textContent= low_total;
 		   }
 		}
 		function dropItMedium(ev) {
@@ -240,8 +247,10 @@
 		   }
 		   if (i < values.length) {
 		     i = i + 1;
+			 med_total = med_total + 1
 		     document.getElementById("valueHeader").textContent=values[i];
 			 document.getElementById("counter").textContent= i + '/' + values.length;
+			 document.getElementById("med_counter").textContent= med_total;
 		   }
 		}
 		  function dropItList(ev) {
@@ -278,6 +287,9 @@
 			  }
 		   if (goodstuff.length > 10) {
 			  i = 0 ;
+			  high_total = 0;
+			  low_total = 0;
+			  med_total = 0; 
 			  values = goodstuff;
 			  goodstuff = []
 			  document.getElementById("valueHeader").textContent=values[0];
