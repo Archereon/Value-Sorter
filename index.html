@@ -64,12 +64,15 @@
 								</header>
 								<div class="image" id='high' ondrop='dropItHigh(event)' onClick= 'dropItHigh(event)' ondragover="allowDrop(event)">
 									<img src="images/highbucket.jpg" alt="" data-position="center center" />
+									<h3 id='high_counter'>0/50</h3>
 								</div>
 								<div class="image" id='medium' ondrop='dropItMedium(event)' onclick='dropItMedium(event)' ondragover="allowDrop(event)">
 									<img src="images/mediumbucket.jpg" alt="" data-position="center center" />
+									<h3 id='med_counter'>0/50</h3>
 								</div>
 								<div class="image" id='low' ondrop='dropItLow(event)' onclick='dropItLow(event)' ondragover="allowDrop(event)">
 									<img src="images/lowbucket.jpg" alt="" data-position="center center" />
+									<h3 id='med_counter'>0/50</h3>
 								</div>
 								
 							</div>
@@ -358,64 +361,6 @@
 		   return true;
 		}, 800);
 		};
-		
-	   function submitToAPI(e) {
-       e.preventDefault();
-       var URL = "https://mnrk7tr407.execute-api.us-west-2.amazonaws.com/prod/contact-us";
-
-            var Namere = /[A-Za-z]{1}[A-Za-z]/;
-            if (!Namere.test($("#name-input").val())) {
-                         alert ("Name can not less than 2 char");
-                return;
-            }
-
-            var mobilere = /[0-9]{10}/;
-            if (!mobilere.test($("#phone-input").val())) {
-                alert ("Please enter valid mobile number");
-                return;
-            }
-            if ($("#email-input").val()=="") {
-                alert ("Please enter your email id");
-                return;
-            }
-
-            var reeamil = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
-            if (!reeamil.test($("#email-input").val())) {
-                alert ("Please enter valid email address");
-                return;
-            }
-
-       var name = $("#name-input").val();
-	   var phone = $("#phone-input").val();
-       var email = $("#email-input").val();
-       var desc = $("#message-input").val();
-       var data = {
-          name : name,
-		  phone : phone,
-          email : email,
-		  desc : desc,
-        };
-
-       $.ajax({
-         type: "POST",
-         url : "https://mnrk7tr407.execute-api.us-west-2.amazonaws.com/prod/contact-us",
-         dataType: "json",
-         crossDomain: "true",
-         contentType: "application/json; charset=utf-8",
-         data: JSON.stringify(data),
-
-         
-         success: function () {
-           // clear form and show a success message
-           alert("Thank you for contacting me.  I will be in touch with you soon.  If you are experiencing a mental health crisis, please contact the crisis line at 1-844-493-8255 or call 911 in case of an emergency.");
-           document.getElementById("contact-form").reset();
-       location.reload();
-         },
-         error: function () {
-           // show an error message
-           alert("Unfortunately, your message did not send.  Please try again later, or call/email me directly.  If you are experiencing a mental health crisis, please contact the crisis line at 1-844-493-8255 or call 911 in case of an emergency.");
-         }});
-     }
 	 </script>
 
 	</body>
