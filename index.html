@@ -207,6 +207,8 @@
 					  'RESEARCHING THINGS',
 					  'MANAGING THINGS']
 		var goodstuff = [];
+		var medstuff = [];
+		var lowstuff = [];
 		function dragStart(ev) {
 		  ev.dataTransfer.setData("text/plain", ev.target.id);
 		}
@@ -224,12 +226,14 @@
 		   high_total = high_total + 1;
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/'+ values.length;
-		   document.getElementById("high_counter").textContent= high_total
+		   document.getElementById("high_counter").textContent= high_total;
 		   }
 		}
 		function dropItLow(ev) {
 		   ev.preventDefault();
 		   if (i != values.length) {
+		   lowstuff.push(values[i]);
+		   console.log(goodstuff);
 		   document.getElementById("recentChangeHeader").textContent="You just sorted value " + values[i] + " into the LOW value bucket";
 		   }
 		   if (i < values.length) {
@@ -243,11 +247,13 @@
 		function dropItMedium(ev) {
 		   ev.preventDefault();
 		   if (i != values.length) {
+		   medstuff.push(values[i]);
+		   console.log(goodstuff);
 		   document.getElementById("recentChangeHeader").textContent="You just sorted value " + values[i] + " into the MEDIUM value bucket";
 		   }
 		   if (i < values.length) {
 		     i = i + 1;
-			 med_total = med_total + 1
+			 med_total = med_total + 1;
 		     document.getElementById("valueHeader").textContent=values[i];
 			 document.getElementById("counter").textContent= i + '/' + values.length;
 			 document.getElementById("med_counter").textContent= med_total;
@@ -258,7 +264,7 @@
 			let sourceId = ev.dataTransfer.getData("text/plain");
 			let sourceIdEl=document.getElementById(sourceId);
 			let sourceIdParentEl=sourceIdEl.parentElement;
-			let targetEl=document.getElementById(ev.target.id)
+			let targetEl=document.getElementById(ev.target.id);
 			if (targetEl.className != 'card') {
 				return
 			}
@@ -271,11 +277,26 @@
 		}
 			
 		function undo(ev) {
-		   goodstuff = goodstuff.filter(function(e) { return e !== values[i]})
+		   goodstuff = goodstuff.filter(function(e) { return e !== values[i]});
+		   medstuff = medstuff.filter(function(e) { return e !== values[i]});
+		   lowstuff = lowstuff.filter(function(e) { return e !== values[i]});
+		   if (goodstuff.includes(values[i])) {
+			high_total = high_total - 1;
+			document.getElementById("high_counter").textContent= high_total;
+		   }
+		   if (medstuff.includes(values[i])) {
+			med_total = med_total - 1;
+			document.getElementById("med_counter").textContent= med_total;
+		   }
+		   if (lowstuff.includes(values[i])) {
+			low_total = low_total - 1;
+			document.getElementById("low_counter").textContent= low_total;
+		   }
 		   document.getElementById("recentChangeHeader").textContent="";
 		   if (i > 0) {
 		     i = i - 1;
 		   }
+		   
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/'+ values.length;
 		};
@@ -291,7 +312,7 @@
 			  low_total = 0;
 			  med_total = 0; 
 			  values = goodstuff;
-			  goodstuff = []
+			  goodstuff = [];
 			  document.getElementById("valueHeader").textContent=values[0];
 			  document.getElementById("counter").textContent= i + '/'+ values.length;
 			  document.getElementById("recentChangeHeader").textContent=""
