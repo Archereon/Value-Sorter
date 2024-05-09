@@ -156,6 +156,7 @@
 		var high_total = 0
 		var low_total = 0
 		var med_total = 0
+		var second_time = false
 		var values = ['CONNECTING WITH NATURE', 
 		              'CREATING BEAUTY', 
 					  'BEING LOYAL TO FRIENDS, FAMILY, AND/OR MY GROUP', 
@@ -226,7 +227,9 @@
 		   high_total = high_total + 1;
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/'+ values.length;
+		   if (second_time == true) {
 		   document.getElementById("high_counter").textContent= high_total;
+		   }
 		   }
 		}
 		function dropItLow(ev) {
@@ -241,7 +244,9 @@
 		   low_total = low_total + 1;
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/' + values.length;
+		   if (second_time == true) {
 		   document.getElementById("low_counter").textContent= low_total;
+		   }
 		   }
 		}
 		function dropItMedium(ev) {
@@ -256,7 +261,9 @@
 			 med_total = med_total + 1;
 		     document.getElementById("valueHeader").textContent=values[i];
 			 document.getElementById("counter").textContent= i + '/' + values.length;
+			 if (second_time == true) {
 			 document.getElementById("med_counter").textContent= med_total;
+			 }
 		   }
 		}
 		  function dropItList(ev) {
@@ -282,15 +289,21 @@
 		   lowstuff = lowstuff.filter(function(e) { return e !== values[i]});
 		   if (goodstuff.includes(values[i])) {
 			high_total = high_total - 1;
+			if (second_time == true) {
 			document.getElementById("high_counter").textContent= high_total;
+			}
 		   }
 		   if (medstuff.includes(values[i])) {
 			med_total = med_total - 1;
+			if (second_time == true) {
 			document.getElementById("med_counter").textContent= med_total;
+			}
 		   }
 		   if (lowstuff.includes(values[i])) {
 			low_total = low_total - 1;
+			if (second_time == true) {
 			document.getElementById("low_counter").textContent= low_total;
+			}
 		   }
 		   document.getElementById("recentChangeHeader").textContent="";
 		   if (i > 0) {
@@ -307,6 +320,7 @@
 			  return false;
 			  }
 		   if (goodstuff.length > 10) {
+			  second_time=true;
 			  i = 0 ;
 			  high_total = 0;
 			  low_total = 0;
@@ -315,6 +329,9 @@
 			  goodstuff = [];
 			  document.getElementById("valueHeader").textContent=values[0];
 			  document.getElementById("counter").textContent= i + '/'+ values.length;
+			  document.getElementById("low_counter").textContent= low_total;
+			  document.getElementById("high_counter").textContent= high_total;
+			  document.getElementById("med_counter").textContent= med_total;
 			  document.getElementById("recentChangeHeader").textContent=""
 			  document.querySelector('.board-column-items').innerHTML = '';
 			  window.location="#ValueSorterRedo";
