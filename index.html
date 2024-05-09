@@ -284,6 +284,9 @@
 		}
 			
 		function undo(ev) {
+			if (i > 0) {
+		     i = i - 1;
+		   }
 		   if (goodstuff.includes(values[i])) {
 			high_total = high_total - 1;
 			if (second_time == true) {
