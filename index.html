@@ -284,9 +284,6 @@
 		}
 			
 		function undo(ev) {
-		   goodstuff = goodstuff.filter(function(e) { return e !== values[i]});
-		   medstuff = medstuff.filter(function(e) { return e !== values[i]});
-		   lowstuff = lowstuff.filter(function(e) { return e !== values[i]});
 		   if (goodstuff.includes(values[i])) {
 			high_total = high_total - 1;
 			if (second_time == true) {
@@ -305,6 +302,9 @@
 			document.getElementById("low_counter").textContent= low_total;
 			}
 		   }
+		   goodstuff = goodstuff.filter(function(e) { return e !== values[i]});
+		   medstuff = medstuff.filter(function(e) { return e !== values[i]});
+		   lowstuff = lowstuff.filter(function(e) { return e !== values[i]});
 		   document.getElementById("recentChangeHeader").textContent="";
 		   if (i > 0) {
 		     i = i - 1;
