@@ -308,11 +308,7 @@
 		   goodstuff = goodstuff.filter(function(e) { return e !== values[i]});
 		   medstuff = medstuff.filter(function(e) { return e !== values[i]});
 		   lowstuff = lowstuff.filter(function(e) { return e !== values[i]});
-		   document.getElementById("recentChangeHeader").textContent="";
-		   if (i > 0) {
-		     i = i - 1;
-		   }
-		   
+		   document.getElementById("recentChangeHeader").textContent="";		   
 		   document.getElementById("valueHeader").textContent=values[i];
 		   document.getElementById("counter").textContent= i + '/'+ values.length;
 		};
